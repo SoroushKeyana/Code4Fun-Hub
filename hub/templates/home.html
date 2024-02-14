@@ -1,0 +1,23 @@
+<!-- hub/templates/home.html -->
+{% extends 'base.html' %}
+
+{% block body_class %}home-page{% endblock %}
+
+{% block content %}
+  <div class="home-container">
+      {% if user.is_authenticated %}
+      <h1>Enjoy using <span class="text-warning">CODE4FUN Hub</span>, <span class='text-capitalize font-weight-bold'>{{ user.username }}<span> <i class="fa-solid fa-face-smile"></i></h1>
+      {% else %}
+      <h1>Welcome to CODE4FUN Hub</h1>
+      {% endif %}
+      <h1 class='home-icons'>
+          <i class="fa-brands fa-js"></i>
+          <i class="fa-brands fa-python"></i>
+          <i class="fa-solid fa-database"></i>
+          <i class="fa-brands fa-html5"></i>
+          <i class="fa-brands fa-css3-alt"></i>
+          <i class="fa-brands fa-bootstrap"></i>
+          <i class="fa-brands fa-wordpress"></i>
+      </h1>
+  </div>
+{% endblock %}

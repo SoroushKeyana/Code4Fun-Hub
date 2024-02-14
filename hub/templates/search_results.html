@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="search-results container">
+    <h1 class='m-4'>Search Results</h1>
+    
+    {% if query %}
+      <p class='text-success ml-4'>Results for "{{ query }}":</p>
+      
+      <div class="search-box post-container" style="margin-bottom: 20px;">
+        <h2>Projects</h2>
+        <div class="project-results">
+          {% if projects %}
+            <ul class="project-list">
+              {% for project in projects %}
+                <li><a href="{% url 'project_detail' project.id %}">{{ project.title }}</a></li>
+                <p>{{ forum_post.searchable_content }}</p>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p>No projects found.</p>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="search-box post-container">
+        <h2>Forum Posts</h2>
+        <div class="forum-results">
+          {% if forum_posts %}
+            <ul class="forum-list">
+              {% for forum_post in forum_posts %}
+                <li><a href="{% url 'forum_post_detail' forum_post.id %}">{{ forum_post.title }}</a></li>
+                <p>{{ forum_post.searchable_content }}</p>
+
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p>No forum posts found.</p>
+          {% endif %}
+        </div>
+      </div>
+    {% else %}
+      <p>Please enter a search query.</p>
+    {% endif %}
+  </div>
+{% endblock %}

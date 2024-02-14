@@ -1,0 +1,16 @@
+<!-- hub/templates/delete_forum_post.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container mt-5">
+    <div class="post-container">
+      <h1 class="post-title">Delete Forum Post</h1>
+      <p>Are you sure you want to delete "{{ post.title }}"?</p>
+      <form method="post" class="comment-form">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Yes, Delete</button>
+      </form>
+      <p class="mt-3"><a href="{% url 'forum_post_detail' post_id=post.id %}" class="btn btn-secondary">Cancel</a></p>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container m-auto w-75">
+	<div class="post-container">
+		<p class="post-author">{{ post.created_by.username }}</p>
+		<h1 class="post-title">{{ post.title }}</h1>
+		<p class="post-content">{{ post.content }}</p>
+		<p class="post-category">Category: {{ post.category.name }}</p>
+		{% if is_owner %}
+    <div class='text-right'>
+       <a href="{% url 'edit_forum_post' post.id %}" class='text-warning'><i class="fa-solid fa-pen-to-square"></i></a> | 
+          <a href="{% url 'delete_forum_post' post.id %}" class='text-danger'><i class="fa-solid fa-trash"></i></a>
+    </div>
+    {% endif %}
+	</div>
+
+	<!-- Comment Form -->
+	<div class="comments-container">
+		<form class="comment-form" method="post">
+			{% csrf_token %}
+			<div class="">
+				<label for="{{ comment_form.title.id_for_label }}" class="form-label"
+					>{{ comment_form.title.label_tag }}</label
+				>
+				{{ comment_form.title }}
+			</div>
+			<div class="">
+				<label for="{{ comment_form.content.id_for_label }}" class="form-label"
+					>Help your friend by providing a solution here</label
+				>
+				{{ comment_form.content }}
+			</div>
+			<button type="submit" class="btn">
+				Add Solution <i class="fa-regular fa-face-smile-beam"></i>
+			</button>
+		</form>
+	</div>
+	<div class="comments-container mb-5">
+		<!-- Comments Section -->
+		<div class="comments-section">
+			<h2 class="comments-heading">Solutions</h2>
+			<hr />
+			{% for comment in comments %}
+			<div class="comment">
+            <p class="comment-author">{{ comment.user.username }} | {{ comment.created_at }}</p>
+				<p class="comment-content">{{ comment.content }}</p>
+				{% if comment.user == request.user %}
+                 <a href="{% url 'edit_comment' comment_id=comment.id %}" class='text-warning'><i class="fa-solid fa-pen-to-square"></i></a>
+                | <a href="{% url 'delete_comment' comment_id=comment.id %}" class='text-danger'><i class="fa-solid fa-trash"></i></a>
+              {% endif %}
+				<hr />
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+{% endblock %}

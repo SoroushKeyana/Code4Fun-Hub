@@ -1,0 +1,123 @@
+{% load static %}
+
+<!-- hub/templates/base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Code4Fun Hub{% endblock %}</title>
+    <!-- Add Bootstrap CSS -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+    />
+    <link
+        rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <!-- Add your custom CSS styles here -->
+</head>
+<body class="{% block body_class %}{% endblock %}">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <a class="navbar-brand" href="{% url 'home' %}">
+            <img src="{% static 'logo2.png' %}" alt="Code4Fun Hub" height="30" class="d-inline-block align-top">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon rounded"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="navbar-nav">
+                {% if user.is_superuser %}
+                <ul class="navbar-nav" id="username">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'admin:index' %}">
+                            <i class="fa-solid fa-screwdriver-wrench"></i>
+                        </a>
+                    </li>
+                </ul>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'home' %}">
+                        <i class="fa-solid fa-house"></i> Home
+                    </a>
+                </li>
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'project_list' %}">
+                        <i class="fa-solid fa-diagram-project"></i> Projects
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'create_project' %}">
+                        <i class="fa-solid fa-folder-plus"></i> Create Projects
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'forum_post_list' %}">
+                        <i class="fa-solid fa-comments"></i> Forum
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'create_forum_post' %}">
+                        <i class="fa-solid fa-plus"></i> Create Forum Post
+                    </a>
+                </li>
+                {% if user.is_superuser %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'register' %}">
+                        <i class="fa-solid fa-user-plus"></i> Create user
+                    </a>
+                </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">
+                        <i class="fa-solid fa-right-from-bracket"></i> Logout
+                    </a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}">
+                        <i class="fa-solid fa-right-to-bracket"></i> Login
+                    </a>
+                </li>
+                {% endif %}
+            </div>
+            {% if user.is_authenticated %}
+            <div class="ml-auto">
+                <form class="form-inline my-2 my-lg-0 justify-content-center" method="get" action="{% url 'search' %}">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="query" placeholder="Search...">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-light" type="submit">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+    </nav>
+
+    {% block content %}
+    <!-- Content of individual templates will go here -->
+    {% endblock %} {% if not is_homepage %}
+    <footer class="footer mt-5">
+        <p>
+            &copy; 2020 Code4Fun Hub. All rights reserved. |
+            <a href="https://www.wassa.org.af" target="_blank">Visit Wassa.org.af</a>
+        </p>
+    </footer>
+    {% endif %}
+    <!-- Bootstrap JS and Popper.js (required for Bootstrap dropdowns) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Add your custom JS scripts or links here -->
+</body>
+</html>

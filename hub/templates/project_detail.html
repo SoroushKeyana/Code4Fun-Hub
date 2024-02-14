@@ -1,0 +1,26 @@
+<!-- project_detail.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container mt-5">
+    <div class="post-container">
+    
+      <p class="post-author">{{ project.created_by.username }} | {{ project.created_at }}</p>
+      <h1 class="post-title">{{ project.title }}</h1>
+      <p class="post-content">Description: {{ project.description }}</p>
+
+      <ul class="comments-section">
+        {% for file in project_files %}
+            <a href="{{ file.url }}" download="{{ file.name }}" class="comment-content"><i class="fa-solid fa-download text-success"></i> {{ file.name }}</a>
+        {% endfor %}
+      </ul>
+
+    {% if is_owner %}
+    <div class='text-right'>
+      <a href="{% url 'edit_project' project.id %}" class='text-warning'><i class="fa-solid fa-pen-to-square"></i></a> | 
+      <a href="{% url 'delete_project' project.id %}" class='text-danger'><i class="fa-solid fa-trash"></i></a>
+    </div>
+    {% endif %}
+    </div>
+  </div>
+{% endblock %}
